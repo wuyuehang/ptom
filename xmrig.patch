@@ -1,0 +1,54 @@
+diff --git a/src/config.json b/src/config.json
+index a973ff2..901e352 100644
+--- a/src/config.json
++++ b/src/config.json
+@@ -49,7 +49,7 @@
+         "cn/0": false,
+         "cn-lite/0": false
+     },
+-    "donate-level": 5,
++    "donate-level": 0,
+     "donate-over-proxy": 1,
+     "log-file": null,
+     "pools": [
+diff --git a/src/core/config/Config_default.h b/src/core/config/Config_default.h
+index 3db93a8..510a2c7 100644
+--- a/src/core/config/Config_default.h
++++ b/src/core/config/Config_default.h
+@@ -81,7 +81,7 @@ R"===(
+         "cn/0": false,
+         "cn-lite/0": false
+     },
+-    "donate-level": 5,
++    "donate-level": 0,
+     "donate-over-proxy": 1,
+     "log-file": null,
+     "pools": [
+diff --git a/src/core/config/Config_platform.h b/src/core/config/Config_platform.h
+index 2a1725e..9d4ffd0 100644
+--- a/src/core/config/Config_platform.h
++++ b/src/core/config/Config_platform.h
+@@ -63,7 +63,7 @@ static const option options[] = {
+     { "config",                1, nullptr, IConfig::ConfigKey             },
+     { "cpu-affinity",          1, nullptr, IConfig::CPUAffinityKey        },
+     { "cpu-priority",          1, nullptr, IConfig::CPUPriorityKey        },
+-    { "donate-level",          1, nullptr, IConfig::DonateLevelKey        },
++    { "donate-level",          0, nullptr, IConfig::DonateLevelKey        },
+     { "donate-over-proxy",     1, nullptr, IConfig::ProxyDonateKey        },
+     { "dry-run",               0, nullptr, IConfig::DryRunKey             },
+     { "keepalive",             0, nullptr, IConfig::KeepAliveKey          },
+diff --git a/src/donate.h b/src/donate.h
+index 46f26b7..67a9cb0 100644
+--- a/src/donate.h
++++ b/src/donate.h
+@@ -43,8 +43,8 @@
+  * XMR: 48edfHu7V9Z84YzzMa6fUueoELZ9ZRXq9VetWzYGzKt52XU5xvqgzYnDK9URnRoJMk1j8nLwEVsaSWJ4fhdUyZijBGUicoD
+  * BTC: 1P7ujsXeX7GxQwHNnJsRMgAdNkFZmNVqJT
+  */
+-constexpr const int kDefaultDonateLevel = 5;
+-constexpr const int kMinimumDonateLevel = 1;
++constexpr const int kDefaultDonateLevel = 0;
++constexpr const int kMinimumDonateLevel = 0;
+ 
+ 
+ #endif /* __DONATE_H__ */
