@@ -1,0 +1,8 @@
+# normal
+-u WN
+
+# not enough memory
+-u WN --randomx-mode=light
+
+# restrict thread
+-u WN -t 8
