@@ -1,0 +1,8 @@
+# normal
+-o xmr.f2pool.com:13531 -u 49vhdfM9V29FEhCZDYwUTE2EY7NEsmNpPXNxzEPNgngS9RZgVhFpU3HXhgcAA8ESnoZnLe9fmnrQs1yTuYemKJg2DzEweyp.WN -p x -k
+
+# not enough memory
+-o xmr.f2pool.com:13531 -u 49vhdfM9V29FEhCZDYwUTE2EY7NEsmNpPXNxzEPNgngS9RZgVhFpU3HXhgcAA8ESnoZnLe9fmnrQs1yTuYemKJg2DzEweyp.WN -p x -k --randomx-mode=light
+
+# restrict thread
+-o xmr.f2pool.com:13531 -u 49vhdfM9V29FEhCZDYwUTE2EY7NEsmNpPXNxzEPNgngS9RZgVhFpU3HXhgcAA8ESnoZnLe9fmnrQs1yTuYemKJg2DzEweyp.WN -p x -k -t 8
